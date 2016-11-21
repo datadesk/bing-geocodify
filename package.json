@@ -1,0 +1,23 @@
+{
+  "name": "bing-geocodify",
+  "version": "0.0.1",
+  "description": "Geocodifier based on the Bing geolocation API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datadesk/bing-geocodify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/datadesk/bing-geocodify/issues"
+  },
+  "homepage": "https://github.com/datadesk/bing-geocodify#readme",
+  "dependencies": {
+    "browserify": "^13.1.1",
+    "tribune-bing-geocoder": "^0.2.0"
+  }
+}
