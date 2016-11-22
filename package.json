@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/datadesk/bing-geocodify#readme",
   "dependencies": {
+    "browser-sync": "^2.18.2",
     "browserify": "^13.1.1",
-    "tribune-bing-geocoder": "^0.2.0"
+    "gulp": "^3.9.1",
+    "tribune-bing-geocoder": "^0.2.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

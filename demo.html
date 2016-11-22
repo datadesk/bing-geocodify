@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bing Geocodifier demo</title>
+</head>
+<body>
+    <h1>Bing Geocodifier demo</h1>
+
+    <div id="geocodifier"></div>
+
+    <div id="address-wrapper">
+        <form id="addy_search">
+            <input type="text" id="addy_search-input" class="geocodifyInput" autocomplete="off" placeholder="Search an address">
+            <div id="addy_search-dropdown" class="geocodifyDropdown hidden"></div>
+        </form>
+    </div>
+
+
+    <script src="build/bing-geocodifier.js"></script>
+    <script>
+        var geocoder = new BingGeocodifier('geocodifier', {
+            key: "AqEQ_HqipMZe_KnMeHEJ_CEtkNG9Y34_aXaGeIya4fBtc4hTIA9KYzMfFaK5nbK5"
+        });
+    </script>
+
+</body>
+</html>
