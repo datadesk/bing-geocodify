@@ -14,6 +14,12 @@ gulp.task("browserify", function () {
         .pipe(gulp.dest('./build/'));
 });
 
+gulp.task("build-css", function() {
+    return gulp.src("src/bing-geocodifier.css")
+            //.pipe(source("bing-geocodifier.css"))
+            .pipe(gulp.dest('./build/'));
+});
+
 gulp.task("browser-sync", ["watch"], function () {
     browserSync({
         server: { baseDir: "build" },
@@ -23,6 +29,7 @@ gulp.task("browser-sync", ["watch"], function () {
 
 gulp.task("watch", ["browserify"], function(done) {
     gulp.watch('src/bing-geocodifier.js', ["browserify"]);
+    gulp.watch('src/bing-geocodifier.css', ["build-css"]);
     done();
 });
 
