@@ -3,8 +3,9 @@ A geocodifier based on the Bing geolocation API.
 
 
 # Example usage
+First include `bing-geocodifier.js` and `bing-geocodifier.css` in your page. 
+
 ```
-<script>
 // Initialize on a div element with an ID of "geocodifier"
 var geocoder = new BingGeocodifier('geocodifier', {
     key: "YOUR_API_KEY",
@@ -16,7 +17,6 @@ var geocoder = new BingGeocodifier('geocodifier', {
         adminDistrict: "CA"
     }
 });
-</script>
 ```
 
 # Options
