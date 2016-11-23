@@ -78,6 +78,7 @@
             var geocoder = new BingGeocodifier('geocodifier', {
                 key: "AqEQ_HqipMZe_KnMeHEJ_CEtkNG9Y34_aXaGeIya4fBtc4hTIA9KYzMfFaK5nbK5",
                 onClick: function(item, coords) {
+                    console.log(item);
                     document.getElementById('geocodifier-output').innerHTML += 'You searched for ' + item.name + ', coordinates: ' + coords[0] + ', ' + coords[1] + '<br>';
                 },
                 filters: {
