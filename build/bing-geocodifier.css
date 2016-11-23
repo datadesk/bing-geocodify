@@ -1,10 +1,11 @@
 .geocodifier-form {
     width: 90%;
     max-width: 325px;
+    position:relative;
 }
 
 .geocodify-dropdown {
-    font-family: "Benton Gothic Regular", Arial, sans;
+    font-family: "Benton Gothic Regular", Arial, sans-serif;
     position: absolute;
     display: block;
     z-index: 9003;
@@ -16,7 +17,7 @@
     border: 1px solid #ccc;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -31,7 +32,7 @@
     padding: 8px 1px;
     margin: 0px 5px;
     box-shadow: none;
-    font-family: "Benton Gothic Regular", Arial, sans;
+    font-family: "Benton Gothic Regular", Arial, sans-serif;
 }
 
 .geocodify-input[type="text"]:focus {
@@ -42,7 +43,7 @@
 
 .geocodify-dropdown ul {
     margin: 0;
-    padding: 0
+    padding: 0;
 }
 
 .geocodify-dropdown li {
@@ -52,7 +53,7 @@
     margin: 0;
     list-style-type: none;
     text-align: left;
-    font: 14px "Benton Gothic Regular", Arial, sans-serif
+    font: 14px "Benton Gothic Regular", Arial, sans-serif;
 }
 
 .geocodify-dropdown li:hover {

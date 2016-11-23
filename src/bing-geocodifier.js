@@ -6,6 +6,12 @@ var debounce = require('debounce');
 var BingGeocodifier = function(el, params) {
     this.el = document.getElementById(el);
     this.geocoder = new BingGeocoder(params.key);
+    this.results = null;
+    this.filters = params.filters || null;
+
+    if (params.onClick) {
+        this.onItemClick = params.onClick;
+    }
 
     this.lookupForm = document.createElement("form");
     this.lookupForm.id = 'bing-geocodifier-form';
@@ -42,33 +48,47 @@ var BingGeocodifier = function(el, params) {
         });
 
     this.lookupForm.addEventListener('keydown', debounce( this.getGeocodeData.bind(this), 250) );
+    this.lookupForm.addEventListener('click', function(e) {
+        var target = e.target;
 
+        if (target.tagName.toLowerCase() === 'li') {
+            var siblings = target.parentNode.children,
+                item, coords;
+
+            for (var i = 0; i < siblings.length; i += 1) {
+                if (target.parentNode.children[i] === e.target) {
+                    item = self.results[i];
+                    coords = item.geocodePoints[0].coordinates;
+
+                    self.onItemClick(item, coords);
+                }
+            }
+
+        }
+    });
 };
 
-// Need to allow for different queries/search strings
-BingGeocodifier.prototype.prepSearchString = function(query) {
-    var pattr = /\sca|\scalifornia/gi,
-        match = query.match(pattr);
+BingGeocodifier.prototype.onItemClick = function(item) {
 
-    if (!match) {
-        return query + ' CA';
-    } else {
-        return query;
-    }
 };
 
 
 BingGeocodifier.prototype.filterResults = function(results) {
-    results.resourceSets[0].resources = results.resourceSets[0].resources.filter(function(result) {
-        return result.address.countryRegion === "United States" && result.address.adminDistrict === "CA";
-    });
+    var results = results.resourceSets[0].resources,
+        self = this;
+
+    for (var filter in this.filters) {
+        results = results.filter(function(result) {
+            return result.address[filter] === self.filters[filter];
+        });
+    }
 
     return results;
 };
 
 
-BingGeocodifier.prototype.buildAutofillList = function(geodata) {
-    var results = geodata.resourceSets[0].resources;
+BingGeocodifier.prototype.buildAutofillList = function() {
+    var results = this.results;
 
     if (results.length > 0) {
         this.dropdown.innerHTML = "";
@@ -87,15 +107,19 @@ BingGeocodifier.prototype.buildAutofillList = function(geodata) {
 
 BingGeocodifier.prototype.getGeocodeData = function(e) {
     var self = this;
+
+
     if (this.textInput.value.trim() !== '') {
-        var toGeocode = this.prepSearchString(this.textInput.value);
+        var toGeocode = this.textInput.value;
+
+        var additionalParams = {
+            maxResults: 10
+        };
 
         this.geocoder.geocode(toGeocode, function(err, geodata) {
-            returnedResult = self.filterResults(geodata);
-            self.buildAutofillList(returnedResult);
-        }, {
-            maxResults: 10
-        });
+            self.results = self.filterResults(geodata);
+            self.buildAutofillList();
+        }, additionalParams);
     }
 };
 

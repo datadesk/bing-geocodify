@@ -42,6 +42,7 @@
 </head>
 
 <body>
+
     <!-- NAV -->
     <nav title="Navigation">
         <div id="tophat-container">
@@ -70,14 +71,21 @@
 
         <div id="geocodifier"></div>
 
+        <div id="geocodifier-output"></div>
 
         <script src="build/bing-geocodifier.js"></script>
         <script>
             var geocoder = new BingGeocodifier('geocodifier', {
-                key: "AqEQ_HqipMZe_KnMeHEJ_CEtkNG9Y34_aXaGeIya4fBtc4hTIA9KYzMfFaK5nbK5"
+                key: "AqEQ_HqipMZe_KnMeHEJ_CEtkNG9Y34_aXaGeIya4fBtc4hTIA9KYzMfFaK5nbK5",
+                onClick: function(item, coords) {
+                    document.getElementById('geocodifier-output').innerHTML += 'You searched for ' + item.name + ', coordinates: ' + coords[0] + ', ' + coords[1] + '<br>';
+                },
+                filters: {
+                    countryRegion: "United States",
+                    adminDistrict: "CA"
+                }
             });
         </script>
-
 
     </div>
 
