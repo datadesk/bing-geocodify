@@ -44,8 +44,22 @@ var BingGeocodifier = function(el, params) {
                 e.stopPropagation();
                 e.preventDefault();
                 return false;
+            } else if (e.keyCode === 39) {
+                // Check if cursor is at the end of the selection string
+                // If so, then autocomplete with the top returned result
+                // (If that exists)
+                if (self.textInput.selectionStart === self.textInput.value.length) {
+                    if (self.results.length > -1) {
+                        // Don't call if this is already the value in the text box
+                        if (self.textInput.value !== self.results[0].name) {
+                            self.textInput.value = self.results[0].name;
+                            self.onItemClick(self.results[0], self.results[0].geocodePoints[0].coordinates);
+                        }
+                    }
+                }
             }
         });
+
 
     this.lookupForm.addEventListener('keydown', debounce( this.getGeocodeData.bind(this), 250) );
     this.lookupForm.addEventListener('click', function(e) {
