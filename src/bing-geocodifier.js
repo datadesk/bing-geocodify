@@ -165,6 +165,8 @@ BingGeocodifier.prototype.buildAutofillList = function() {
 
         this.dropdown.appendChild(searchDropdownList);
         this.dropdown.classList.remove("hidden");
+    } else {
+        this.dropdown.classList.add("hidden");
     }
 };
 
