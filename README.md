@@ -1,5 +1,5 @@
 # bing-geocodify
-A geocodifier based on the Bing geolocation API. Autosuggests and returns results. 
+A geocodifier based on the Bing geolocation API. Autosuggests and returns results. [Check out a demo](https://datadesk.github.io/bing-geocodify/). 
 
 - You can use the forward arrow to autocomplete for the first suggested result
 - You can use the up and down arrow keys to select a result. 
