@@ -10,9 +10,6 @@ var BingGeocodifier = function(el, params) {
     this.filters = params.filters || null;
     this.selectedResult = null;
 
-    if (params.onClick) {
-        this.onItemClick = params.onClick;
-    }
 
     this.lookupForm = document.createElement("form");
     this.lookupForm.id = 'bing-geocodifier-form';
@@ -35,6 +32,10 @@ var BingGeocodifier = function(el, params) {
     this.lookupForm.appendChild(this.textInput);
     this.lookupForm.appendChild(this.dropdown);
     this.el.appendChild(this.lookupForm);
+
+    if (params.onClick) {
+        this.onItemClick = params.onClick;
+    }
 
     var self = this;
 
@@ -104,6 +105,7 @@ var BingGeocodifier = function(el, params) {
                     coords = item.geocodePoints[0].coordinates;
 
                     self.onItemClick(item, coords);
+                    this.dropdown.classList.add("hidden");
                 }
             }
 
@@ -123,8 +125,10 @@ BingGeocodifier.prototype.triggerKeySelect = function() {
         if (this.textInput.value !== this.results[index].name) {
             this.textInput.value = this.results[index].name;
             this.onItemClick(this.results[index], this.results[index].geocodePoints[0].coordinates);
+            this.dropdown.classList.add("hidden");
         }
     }
+
 };
 
 BingGeocodifier.prototype.filterResults = function(bingdata) {
