@@ -30,7 +30,7 @@
     color: #333;
     border-radius: 0px;
     padding: 8px 1px;
-    margin: 0px 5px;
+    margin: 0px;
     box-shadow: none;
     font-family: "Benton Gothic Regular", Arial, sans-serif;
 }
@@ -56,6 +56,7 @@
     font: 14px "Benton Gothic Regular", Arial, sans-serif;
 }
 
+.geocodify-dropdown li.active,
 .geocodify-dropdown li:hover {
     background-color: #4591B8;
     color: #fff;

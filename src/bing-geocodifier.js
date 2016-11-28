@@ -8,6 +8,7 @@ var BingGeocodifier = function(el, params) {
     this.geocoder = new BingGeocoder(params.key);
     this.results = null;
     this.filters = params.filters || null;
+    this.selectedResult = null;
 
     if (params.onClick) {
         this.onItemClick = params.onClick;
@@ -38,30 +39,58 @@ var BingGeocodifier = function(el, params) {
     var self = this;
 
     this.lookupForm.addEventListener('keydown', function(e) {
-            if (e.keyCode === 27) {
-                self.hideSearchDropDown();
-            } else if (e.keyCode === 13) {
-                e.stopPropagation();
-                e.preventDefault();
-                return false;
-            } else if (e.keyCode === 39) {
-                // Check if cursor is at the end of the selection string
-                // If so, then autocomplete with the top returned result
-                // (If that exists)
-                if (self.textInput.selectionStart === self.textInput.value.length) {
-                    if (self.results.length > -1) {
-                        // Don't call if this is already the value in the text box
-                        if (self.textInput.value !== self.results[0].name) {
-                            self.textInput.value = self.results[0].name;
-                            self.onItemClick(self.results[0], self.results[0].geocodePoints[0].coordinates);
-                        }
-                    }
-                }
+        // escape, exit search drop down
+        if (e.keyCode === 27) {
+            self.hideSearchDropDown();
+        // enter
+        } else if (e.keyCode === 13) {
+            e.stopPropagation();
+            e.preventDefault();
+            self.triggerKeySelect();
+        // right arrow
+        } else if (e.keyCode === 39) {
+            // Check if cursor is at the end of the selection string
+            // If so, then autocomplete with the top returned result
+            // (If that exists)
+            if (self.textInput.selectionStart === self.textInput.value.length) {
+               self.triggerKeySelect();
             }
-        });
+        // up arrow
+        } else if (e.keyCode === 38) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            document.querySelector('.active').classList.remove('active');
+
+            if (self.selectedResult && self.selectedResult > 0) {
+                self.selectedResult--;
+            } else {
+                self.selectedResult = self.results.length - 1;
+            }
+
+            document.querySelectorAll('.geocodify-dropdown li')[self.selectedResult].classList.add('active');
+
+        // down arrow
+        } else if (e.keyCode === 40) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            document.querySelector('.active').classList.remove('active');
+
+            if (self.selectedResult < self.results.length - 1) {
+                self.selectedResult++;
+            } else {
+                self.selectedResult = 0;
+            }
+
+            document.querySelectorAll('.geocodify-dropdown li')[self.selectedResult].classList.add('active');
+        } else {
+            self.getGeocodeData();
+        }
+    });
 
 
-    this.lookupForm.addEventListener('keydown', debounce( this.getGeocodeData.bind(this), 250) );
+    // this.lookupForm.addEventListener('keydown', debounce( this.getGeocodeData.bind(this), 250) );
     this.lookupForm.addEventListener('click', function(e) {
         var target = e.target;
 
@@ -87,14 +116,27 @@ BingGeocodifier.prototype.onItemClick = function(item) {
 };
 
 
-BingGeocodifier.prototype.filterResults = function(results) {
-    var results = results.resourceSets[0].resources,
+BingGeocodifier.prototype.triggerKeySelect = function() {
+    if (this.results && this.results.length > -1) {
+        var index = this.selectedResult;
+        // Don't call if this is already the value in the text box
+        if (this.textInput.value !== this.results[index].name) {
+            this.textInput.value = this.results[index].name;
+            this.onItemClick(this.results[index], this.results[index].geocodePoints[0].coordinates);
+        }
+    }
+};
+
+BingGeocodifier.prototype.filterResults = function(bingdata) {
+    var results = bingdata.resourceSets[0].resources,
         self = this;
 
+    function filterResults (result) {
+        return result.address[filter] === self.filters[filter];
+    }
+
     for (var filter in this.filters) {
-        results = results.filter(function(result) {
-            return result.address[filter] === self.filters[filter];
-        });
+        results = results.filter(filterResults);
     }
 
     return results;
@@ -105,13 +147,20 @@ BingGeocodifier.prototype.buildAutofillList = function() {
     var results = this.results;
 
     if (results.length > 0) {
+        this.selectedResult = 0;
         this.dropdown.innerHTML = "";
         var searchDropdownList = document.createElement("ul");
 
         for (var i = 0; i < results.length; i += 1) {
             var listItem = document.createElement("li");
             listItem.textContent = results[i].name;
+
+            if (i === 0) {
+                listItem.classList.add("active");
+            }
+
             searchDropdownList.appendChild(listItem);
+
         }
 
         this.dropdown.appendChild(searchDropdownList);
