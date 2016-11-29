@@ -1,10 +1,33 @@
-var BingGeocoder = require('tribune-bing-geocoder').BingGeocoder;
+// var BingGeocoder = require('tribune-bing-geocoder').BingGeocoder;
 var debounce = require('debounce');
 
+var jsonp = {
+    callbackCounter: 0,
+    head: document.getElementsByTagName('head')[0],
+    fetch: function(url, callback) {
+        var fn = 'JSONPCallback_' + this.callbackCounter++;
+        window[fn] = this.evalJSONP(callback);
+        url = url.replace('=JSONPCallback', '=' + fn);
+
+        var scriptTag = document.createElement('script');
+        scriptTag.src = url;
+        this.head.appendChild(scriptTag);
+
+    },
+
+    evalJSONP: function(callback) {
+        this.head.removeChild(this.head.childNodes[this.head.childNodes.length - 1]);
+
+        return function(data) {
+            callback(data);
+        };
+    }
+};
 
 var BingGeocodifier = function(el, params) {
     this.el = document.getElementById(el);
-    this.geocoder = new BingGeocoder(params.key);
+    this.bingApiKey = params.key || null;
+    // this.geocoder = new BingGeocoder(params.key);
     this.results = null;
     this.filters = params.filters || null;
     this.selectedResult = null;
@@ -39,10 +62,10 @@ var BingGeocodifier = function(el, params) {
     var self = this;
 
     this.lookupForm.addEventListener('keydown', this.onKeyDown.bind(this));
-    // this.lookupForm.addEventListener('keydown', debounce( this.onKeyDown.bind(this), 100));
-
     this.lookupForm.addEventListener('click', this.onClick.bind(this));
 };
+
+BingGeocodifier.prototype.bingApiUrl = 'https://dev.virtualearth.net/REST/v1/Locations/';
 
 BingGeocodifier.prototype.onItemClick = function(item) {
 
@@ -189,20 +212,19 @@ BingGeocodifier.prototype.buildAutofillList = function() {
     }
 };
 
+
 BingGeocodifier.prototype.getGeocodeData = function(e) {
     var self = this;
 
     if (this.textInput.value.trim() !== '') {
-        var toGeocode = this.textInput.value;
+        var toGeocode = this.textInput.value,
+            url = this.bingApiUrl + "?q=" + encodeURIComponent(toGeocode) + '&key=' + this.bingApiKey + "&maxResults=10&jsonp=JSONPCallback";
 
-        var additionalParams = {
-            maxResults: 10
-        };
 
-        this.geocoder.geocode(toGeocode, function(err, geodata) {
-            self.results = self.filterResults(geodata);
+        jsonp.fetch(url, function(data) {
+            self.results = self.filterResults(data);
             self.buildAutofillList();
-        }, additionalParams);
+        });
     }
 };
 
