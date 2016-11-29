@@ -90,6 +90,7 @@ BingGeocodifier.prototype.onClick = function(e) {
     }
 };
 
+
 BingGeocodifier.prototype.fillTextInput = function(item) {
     // Don't call if this is already the value in the text box
     if (this.textInput.value !== item.name) {
