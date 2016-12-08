@@ -23,6 +23,7 @@ var jsonp = {
 
 var BingGeocodifier = function(el, params) {
     this.el = document.getElementById(el);
+    this.bingApiUrl = 'https://dev.virtualearth.net/REST/v1/Locations/';
     this.bingApiKey = params.key || null;
     // this.geocoder = new BingGeocoder(params.key);
     this.results = null;
@@ -62,11 +63,11 @@ var BingGeocodifier = function(el, params) {
     this.lookupForm.addEventListener('click', this.onClick.bind(this));
 };
 
-BingGeocodifier.prototype.bingApiUrl = 'https://dev.virtualearth.net/REST/v1/Locations/';
 
 BingGeocodifier.prototype.onItemClick = function(item) {
 
 };
+
 
 BingGeocodifier.prototype.onClick = function(e) {
     var target = e.target;
@@ -96,6 +97,7 @@ BingGeocodifier.prototype.fillTextInput = function(item) {
         this.onItemClick(item, item.geocodePoints[0].coordinates);
     }
 };
+
 
 BingGeocodifier.prototype.onKeyUp = function(e) {
     switch(e.keyCode) {
@@ -154,6 +156,7 @@ BingGeocodifier.prototype.onKeyUp = function(e) {
     }
 };
 
+
 BingGeocodifier.prototype.triggerKeySelect = function() {
     if (this.results && this.results.length > -1) {
         var index = this.selectedResult,
@@ -163,7 +166,6 @@ BingGeocodifier.prototype.triggerKeySelect = function() {
     }
 
 };
-
 
 
 BingGeocodifier.prototype.filterResults = function(bingdata) {
