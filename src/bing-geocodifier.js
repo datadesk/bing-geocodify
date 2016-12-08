@@ -61,7 +61,7 @@ var BingGeocodifier = function(el, params) {
 
     var self = this;
 
-    this.lookupForm.addEventListener('keydown', this.onKeyDown.bind(this));
+    this.lookupForm.addEventListener('keyup', this.onKeyUp.bind(this));
     this.lookupForm.addEventListener('click', this.onClick.bind(this));
 };
 
@@ -100,7 +100,7 @@ BingGeocodifier.prototype.fillTextInput = function(item) {
     }
 };
 
-BingGeocodifier.prototype.onKeyDown = function(e) {
+BingGeocodifier.prototype.onKeyUp = function(e) {
     switch(e.keyCode) {
         // escape, exit search drop down
         case 27:
