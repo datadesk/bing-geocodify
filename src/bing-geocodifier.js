@@ -1,6 +1,3 @@
-// var BingGeocoder = require('tribune-bing-geocoder').BingGeocoder;
-var debounce = require('debounce');
-
 var jsonp = {
     callbackCounter: 0,
     head: document.getElementsByTagName('head')[0],
