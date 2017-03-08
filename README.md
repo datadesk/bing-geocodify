@@ -17,7 +17,8 @@ var geocoder = new BingGeocodifier('geocodifier', {
     },
     filters: {
         countryRegion: "United States",
-        adminDistrict: "CA"
+        adminDistrict: "CA",
+        adminDistrict2: "Los Angeles Co."
     }
 });
 ```
