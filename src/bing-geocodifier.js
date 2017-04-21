@@ -49,8 +49,13 @@ var BingGeocodifier = function(el, params) {
     this.dropdown.className = "geocodify-dropdown hidden";
     this.id = "bing-geocodifier-dropdown";
 
+    this.statusMessage = document.createElement("div");
+    this.statusMessage.className = "geocodify-status hidden";
+    this.statusMessage.id = "bing-geocodifier-status";
+
     this.lookupForm.appendChild(this.textInput);
     this.lookupForm.appendChild(this.dropdown);
+    this.lookupForm.appendChild(this.statusMessage);
     this.el.appendChild(this.lookupForm);
 
     if (params.onClick) {
@@ -222,18 +227,15 @@ BingGeocodifier.prototype.buildAutofillList = function() {
         this.dropdown.appendChild(searchDropdownList);
         this.dropdown.classList.remove("no-results");
         this.dropdown.classList.remove("hidden");
+
+        this.statusMessage.classList.add("hidden");
     } else {
         // add a message if there are no results
-        this.dropdown.innerHTML = "";
-        var searchDropdownList = document.createElement("ul");
-        var listItem = document.createElement("li");
-        listItem.id = "no-result-message";
-        listItem.textContent = "No results";
+        this.statusMessage.textContent = "No results";
+        this.statusMessage.classList.remove("hidden");
 
-        searchDropdownList.appendChild(listItem);
-        this.dropdown.appendChild(searchDropdownList);
         this.dropdown.classList.add("no-results");
-        this.dropdown.classList.remove("hidden");
+        this.dropdown.classList.add("hidden");
 
     }
 };
@@ -246,6 +248,9 @@ BingGeocodifier.prototype.getGeocodeData = function(e) {
         var toGeocode = this.textInput.value,
             url = this.bingApiUrl + "?q=" + encodeURIComponent(toGeocode) + '&key=' + this.bingApiKey + "&maxResults=10&jsonp=JSONPCallback";
 
+        this.statusMessage.textContent = "Searching ...";
+        this.statusMessage.classList.remove("hidden");
+        this.dropdown.classList.add("hidden");
         jsonp.fetch(url, function(data) {
             self.results = self.filterResults(data);
             self.buildAutofillList();
