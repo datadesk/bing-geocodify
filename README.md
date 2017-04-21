@@ -18,7 +18,7 @@ var geocoder = new BingGeocodifier('geocodifier', {
     filters: {
         countryRegion: "United States",
         adminDistrict: "CA",
-        adminDistrict2: "Los Angeles Co."
+        adminDistrict2: ["Los Angeles Co.","Orange Co."]
     }
 });
 ```
@@ -26,7 +26,7 @@ var geocoder = new BingGeocodifier('geocodifier', {
 # Options
 `defaultText` - Search prompt text you want the widget to show. Default is "Search an address".
 
-`filters` - A dictionary of filters, based on what's returned in the address property in the [Bing Location Query API](https://msdn.microsoft.com/en-us/library/ff701711.aspx).
+`filters` - A dictionary of filters, based on what's returned in the address property in the [Bing Location Query API](https://msdn.microsoft.com/en-us/library/ff701711.aspx). You can use a single string or an array of strings
 
 `key` - A Bing API key. 
 
