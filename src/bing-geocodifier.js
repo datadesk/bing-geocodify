@@ -61,6 +61,7 @@ var BingGeocodifier = function(el, params) {
 
     this.lookupForm.addEventListener('keyup', this.onKeyUp.bind(this));
     this.lookupForm.addEventListener('click', this.onClick.bind(this));
+    this.lookupForm.onsubmit = function(){ return false};
 };
 
 
