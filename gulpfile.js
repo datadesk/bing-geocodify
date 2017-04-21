@@ -48,7 +48,7 @@ gulp.task("build", ["browserify:prod", "build-css:prod"]);
 
 gulp.task("browser-sync", ["watch"], function () {
     browserSync({
-        server: { baseDir: "build" },
+        server: { baseDir: "./" },
         open: false
     });
 });
