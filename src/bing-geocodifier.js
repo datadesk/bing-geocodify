@@ -174,7 +174,17 @@ BingGeocodifier.prototype.filterResults = function(bingdata) {
         self = this;
 
     function filterResults (result) {
-        return result.address[filter] === self.filters[filter];
+        // check if filter is single string or array of strings
+        if(Object.prototype.toString.call( self.filters[filter] ) === '[object Array]'){
+            for(var i = 0; i < filter.length; i++){
+                if (result.address[filter] === self.filters[filter][i]){
+                    return true;
+                }
+            }
+            return false
+        } else {
+            return result.address[filter] === self.filters[filter];
+        }
     }
 
     for (var filter in this.filters) {
