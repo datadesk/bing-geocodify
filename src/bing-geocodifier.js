@@ -42,7 +42,7 @@ var BingGeocodifier = function(el, params) {
     if (params.defaultText) {
         this.textInput.setAttribute("placeholder", params.defaultText);
     } else {
-        this.textInput.setAttribute("placeholder", "Search an address");
+        this.textInput.setAttribute("placeholder", "Search for an address");
     }
 
     this.dropdown = document.createElement("div");
