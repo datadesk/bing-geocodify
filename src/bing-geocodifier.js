@@ -186,14 +186,12 @@ BingGeocodifier.prototype.filterResults = function(bingdata) {
         // check if filter is single string or array of strings
         if(Object.prototype.toString.call( self.filters[filter] ) === '[object Array]'){
             for(var i = 0; i < self.filters[filter].length; i++){
-                console.log(result.address[filter], self.filters[filter][i])
                 if (result.address[filter] === self.filters[filter][i]){
                     return true;
                 }
             }
             return false
         } else {
-            console.log(result.address[filter], self.filters[filter])
             return result.address[filter] === self.filters[filter];
         }
     }
