@@ -61,3 +61,7 @@
     background-color: #4591B8;
     color: #fff;
 }
+
+#no-result-message{
+    pointer-events: none;
+}
