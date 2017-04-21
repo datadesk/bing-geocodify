@@ -67,8 +67,8 @@
     font: 14px "Benton Gothic Regular", Arial, sans-serif;
     position: absolute;
     display: block;
-    z-index: 9004;
-    width: 100%;
+    z-index: 9002;
+    width: calc(100% - 8px);
     margin: 0;
     padding: 5px 0 5px 8px;
     background-color: white;

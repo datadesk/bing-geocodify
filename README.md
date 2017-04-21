@@ -18,7 +18,7 @@ var geocoder = new BingGeocodifier('geocodifier', {
     filters: {
         countryRegion: "United States",
         adminDistrict: "CA",
-        adminDistrict2: ["Los Angeles Co.","Orange Co."]
+        adminDistrict2: ["Los Angeles","Orange"]
     }
 });
 ```

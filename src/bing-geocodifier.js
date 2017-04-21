@@ -250,7 +250,7 @@ BingGeocodifier.prototype.getGeocodeData = function(e) {
 
         this.statusMessage.textContent = "Searching ...";
         this.statusMessage.classList.remove("hidden");
-        this.dropdown.classList.add("hidden");
+        // this.dropdown.classList.add("hidden");
         jsonp.fetch(url, function(data) {
             self.results = self.filterResults(data);
             self.buildAutofillList();
