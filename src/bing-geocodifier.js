@@ -162,7 +162,12 @@ BingGeocodifier.prototype.onKeyUp = function(e) {
             break;
         // Any other keypress
         default:
-            this.getGeocodeData();
+            // don't try to search when the box is empty
+            if(this.textInput.value.length === 0){
+                this.hideSearchDropDown();
+            } else {
+                this.getGeocodeData();
+            }
     }
 };
 
@@ -262,6 +267,7 @@ BingGeocodifier.prototype.getGeocodeData = function(e) {
 BingGeocodifier.prototype.hideSearchDropDown = function() {
     this.dropdown.innerHTML = "";
     this.dropdown.classList.add("hidden");
+    this.statusMessage.classList.add("hidden");
     this.textInput.value = '';
 };
 
