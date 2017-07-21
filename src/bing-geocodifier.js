@@ -103,9 +103,9 @@ BingGeocodifier.prototype.fillTextInput = function(item) {
     // Don't call if this is already the value in the text box
     if (this.textInput.value !== item.name) {
         this.textInput.value = item.name;
-        this.dropdown.classList.add("hidden");
-        this.onItemClick(item, item.geocodePoints[0].coordinates);
     }
+    this.dropdown.classList.add("hidden");
+    this.onItemClick(item, item.geocodePoints[0].coordinates);
 };
 
 
@@ -250,16 +250,32 @@ BingGeocodifier.prototype.getGeocodeData = function(e) {
     var self = this;
 
     if (this.textInput.value.trim() !== '') {
-        var toGeocode = this.textInput.value,
-            url = this.bingApiUrl + "?q=" + encodeURIComponent(toGeocode) + '&key=' + this.bingApiKey + "&maxResults=10&jsonp=JSONPCallback";
-
-        this.statusMessage.textContent = "Searching ...";
-        this.statusMessage.classList.remove("hidden");
-        // this.dropdown.classList.add("hidden");
-        jsonp.fetch(url, function(data) {
-            self.results = self.filterResults(data);
+        if (this.textInput.value.trim().match(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/)) {
+            self.results = [{
+                            type:'coordinates',
+                            name:this.textInput.value.trim(),
+                            geocodePoints: [{
+                                coordinates:[
+                                    parseFloat(this.textInput.value.split(',')[0]),
+                                    parseFloat(this.textInput.value.split(',')[1])
+                                ]
+                            }]
+                        }];
             self.buildAutofillList();
-        });
+
+        } else {
+            var toGeocode = this.textInput.value,
+                url = this.bingApiUrl + "?q=" + encodeURIComponent(toGeocode) + '&key=' + this.bingApiKey + "&maxResults=10&jsonp=JSONPCallback";
+
+            this.statusMessage.textContent = "Searching ...";
+            this.statusMessage.classList.remove("hidden");
+            // this.dropdown.classList.add("hidden");
+            jsonp.fetch(url, function(data) {
+                self.results = self.filterResults(data);
+                self.buildAutofillList();
+            });
+        }
+
     }
 };
 
